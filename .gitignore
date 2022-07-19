@@ -1,0 +1,16 @@
+cnndm/cnn/test/*.sent
+cnndm/cnn/test/*.summ
+cnndm/cnn/training/*.sent
+cnndm/cnn/training/*.summ
+cnndm/cnn/validation/*.sent
+cnndm/cnn/validation/*.summ
+cnndm/dailymail/test/*.sent
+cnndm/dailymail/test/*.summ
+cnndm/dailymail/training/*.sent
+cnndm/dailymail/training/*.summ
+cnndm/dailymail/validation/*.sent
+cnndm/dailymail/validation/*.summ
+MReD_files/*.bin
+MReD_files/chunked/*.bin
+MReD/*.csv
+MReD/*.json
