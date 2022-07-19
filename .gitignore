@@ -14,3 +14,6 @@ MReD_files/*.bin
 MReD_files/chunked/*.bin
 MReD/*.csv
 MReD/*.json
+MReD/
+cnndm/
+MReD_files/
