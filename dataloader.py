@@ -10,7 +10,6 @@ class MReDDataset(Dataset):
         with open(file_path,'r') as f:
             data = json.load(f)
         self.data = data
-        self.tokenizer=BartTokenizer.from_pretrained("facebook/bart-large-cnn")
     def __len__(self):
         return len(self.data)
     def __getitem__(self,idx):

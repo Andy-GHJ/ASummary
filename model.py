@@ -1,20 +1,21 @@
 import torch
 from torch import nn
-from transformers import BartTokenizer, BartConfig,BartForConditionalGeneration
 from typing import  Callable, Iterable, List, Optional
+from transformers import LEDTokenizer,LEDForConditionalGeneration,LEDConfig
 
+device = torch.device("cuda:0" if (torch.cuda.is_available() ) else "cpu")
 class AS(nn.Module):
-    def __init__(self):
+    def __init__(self, config: LEDConfig()):
         super().__init__()
-        self.configuration = BartConfig()
-        self.tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")  
-        self.bartmodel = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn")
-        self.decoder_aspect_detector = nn.Linear(self.configuration.vocab_size, 9)
+        self.tokenizer = LEDTokenizer.from_pretrained("allenai/led-base-16384")
+        config.output_hidden_states=True
+        self.model = LEDForConditionalGeneration(config)
+        self.decoder_aspect_detector= nn.Linear(50265,10,bias=True)
     def forward(self,
                 inputs,
                 outputs,
                 ):
-            result = self.bartmodel(input_ids=inputs['input_ids'],attention_mask=inputs['attention_mask'],decoder_input_ids=outputs['input_ids'],decoder_attention_mask=outputs['attention_mask'])
+            result = self.model(input_ids=inputs['input_ids'],attention_mask=inputs['attention_mask'],decoder_input_ids=outputs['input_ids'],decoder_attention_mask=outputs['attention_mask'])
             predict=result.logits.transpose(1, 2)
             answer=self.tokenizer.batch_decode(torch.max(result.logits,2).indices,skip_special_tokens=True)
             aspect=self.decoder_aspect_detector(torch.mean(result.logits,1))
